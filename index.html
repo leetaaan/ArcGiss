@@ -1,0 +1,212 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>DACN</title>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.26/"></script>
+
+
+    <script>
+      require([
+          "esri/config",
+          "esri/Map",
+          "esri/views/MapView",
+
+          "esri/widgets/Locate",
+          "esri/widgets/Track",
+          "esri/Graphic",
+
+          "esri/widgets/BasemapToggle",
+          "esri/widgets/BasemapGallery",
+
+          "esri/widgets/Search",
+
+          "esri/rest/locator"
+
+        ], function(
+            esriConfig,
+            Map,
+            MapView,
+
+            Locate,
+            Track,
+            Graphic,
+
+            BasemapToggle,
+            BasemapGallery,
+
+            Search,
+
+            locator,
+
+            Expand
+
+            
+
+        ) {
+
+        esriConfig.apiKey = "AAPKef2e8d02e19f495885a72fa3da0e29b9APB09BBHP6yPZLHLCGP3WhRagiKl6tspfr3eLJ4yDTb44RteHobQGN9fN5TCEHvP";
+
+        const map = new Map({
+          basemap: "arcgis-navigation"
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          center: [108.4507227,11.95],
+          zoom: 13
+        });
+
+
+        //locate
+        const locate = new Locate({
+          view: view,
+          useHeadingEnabled: false,
+          goToOverride: function(view, options) {
+            options.target.scale = 1500;
+            return view.goTo(options.target);
+          }
+        });
+
+
+        view.ui.add(locate, "top-left");
+
+        //Track
+        const track = new Track({
+          view: view,
+          graphic: new Graphic({
+            symbol: {
+              type: "simple-marker",
+              size: "12px",
+              color: "green",
+              outline: {
+                color: "#efefef",
+                width: "1.5px"
+              }
+            }
+          }),
+          useHeadingEnabled: false
+        });
+        view.ui.add(track, "top-left");
+
+
+        //basemap
+        const basemapToggle = new BasemapToggle({
+        view: view,
+        nextBasemap: "arcgis-imagery"
+     });
+
+      view.ui.add(basemapToggle,"bottom-right");
+
+      const basemapGallery = new BasemapGallery({
+        view: view,
+        source: {
+          query: {
+            title: '"World Basemaps for Developers" AND owner:esri'
+          }
+        }
+      });
+
+      view.ui.add(basemapGallery, "top-right");
+
+
+      //Tim dia chi
+      const search = new Search({
+      view: view
+    });
+
+    view.ui.add(search, "bottom-left");
+
+
+
+
+    //Place
+    const places = ["Choose a place type...", "Parks and Outdoors", "Coffee shop", "Gas station", "Food", "Hotel"];
+
+    const select = document.createElement("select","");
+      select.setAttribute("class", "esri-widget esri-select");
+      select.setAttribute("style", "width: 175px; font-family: 'Avenir Next W00'; font-size: 1em");
+
+    places.forEach(function(p){
+      const option = document.createElement("option");
+      option.value = p;
+      option.innerHTML = p;
+      select.appendChild(option);
+    });
+
+    view.ui.add(select, "bottom-right");
+
+    const locatorUrl = "http://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+
+   // Find places and add them to the map
+   function findPlaces(category, pt) {
+    locator.addressToLocations(locatorUrl, {
+      location: pt,
+      categories: [category],
+      maxLocations: 25,
+      outFields: ["Place_addr", "PlaceName"]
+    })
+
+    .then(function(results) {
+      view.popup.close();
+      view.graphics.removeAll();
+
+      results.forEach(function(result){
+        view.graphics.add(
+          new Graphic({
+            attributes: result.attributes,  // Data attributes returned
+            geometry: result.location, // Point returned
+            symbol: {
+             type: "simple-marker",
+             color: "#000000",
+             size: "12px",
+             outline: {
+               color: "#ffffff",
+               width: "2px"
+             }
+            },
+
+            popupTemplate: {
+              title: "{PlaceName}", // Data attribute names
+              content: "{Place_addr}"
+            }
+         }));
+      });
+
+    });
+
+  }
+
+  // Search for places in center of map
+  view.watch("stationary", function(val) {
+    if (val) {
+       findPlaces(select.value, view.center);
+    }
+    });
+
+  // Listen for category changes and find places
+  select.addEventListener('change', function (event) {
+    findPlaces(event.target.value, view.center);
+  });
+        });
+    </script>
+
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
