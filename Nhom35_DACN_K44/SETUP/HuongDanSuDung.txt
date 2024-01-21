@@ -1,0 +1,8 @@
+Hướng dẫn
+Mở file index bằng trình duyệt hoặc Visual Studio Code để sử dụng.
+Đối với Visual Studio Code chạy chương trình bằng phím F5 hoặc Go Live ở góc phải bên dưới
+
+Để sử đụng trang web cần có tài khoản Arcgis Online
+Đây là ví dụ
+Tên đăng nhập: LeeTaan
+Mật khẩu: Letan123456789

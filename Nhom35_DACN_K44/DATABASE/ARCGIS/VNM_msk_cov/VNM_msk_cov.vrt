@@ -1,0 +1,35 @@
+<VRTDataset rasterXSize="912" rasterYSize="1800">
+  <GeoTransform>  1.0200000000000000e+02,  8.3333330000000001e-03,  0.0000000000000000e+00,  2.3500000000000000e+01,  0.0000000000000000e+00, -8.3333330000000001e-03</GeoTransform>
+  <Metadata domain="Esri">
+    <MDI key="PyramidResamplingType">NEAREST</MDI>
+  </Metadata>
+  <VRTRasterBand dataType="Int16" band="1" subClass="VRTRawRasterBand">
+    <Metadata>
+      <MDI key="STATISTICS_COVARIANCES">33.74401452608806</MDI>
+      <MDI key="STATISTICS_EXCLUDEDVALUES"></MDI>
+      <MDI key="STATISTICS_MAXIMUM">22</MDI>
+      <MDI key="STATISTICS_MEAN">12.71347311942</MDI>
+      <MDI key="STATISTICS_MINIMUM">1</MDI>
+      <MDI key="STATISTICS_SKIPFACTORX">1</MDI>
+      <MDI key="STATISTICS_SKIPFACTORY">1</MDI>
+      <MDI key="STATISTICS_STDDEV">5.8089598488962</MDI>
+    </Metadata>
+    <Description>VNM_msk_cov</Description>
+    <NoDataValue>-9999</NoDataValue>
+    <Histograms>
+      <HistItem>
+        <HistMin>1</HistMin>
+        <HistMax>22</HistMax>
+        <BucketCount>256</BucketCount>
+        <IncludeOutOfRange>1</IncludeOutOfRange>
+        <Approximate>0</Approximate>
+        <HistCounts>61803|0|0|0|0|0|0|0|0|0|0|0|6750|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|550|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1364|0|0|0|0|0|0|0|0|0|0|0|24763|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|66400|0|0|0|0|0|0|0|0|0|0|0|37914|0|0|0|0|0|0|0|0|0|0|0|3882|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|133526|0|0|0|0|0|0|0|0|0|0|0|58056|0|0|0|0|0|0|0|0|0|0|0|55|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|47929|0|0|0|0|0|0|0|0|0|0|0|28|0|0|0|0|0|0|0|0|0|0|0|0|181</HistCounts>
+      </HistItem>
+    </Histograms>
+    <SourceFilename relativeToVRT="1">VNM_msk_cov.gri</SourceFilename>
+    <ImageOffset>0</ImageOffset>
+    <PixelOffset>2</PixelOffset>
+    <LineOffset>1824</LineOffset>
+    <ByteOrder>LSB</ByteOrder>
+  </VRTRasterBand>
+</VRTDataset>

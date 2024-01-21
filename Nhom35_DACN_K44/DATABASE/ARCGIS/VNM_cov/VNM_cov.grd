@@ -1,0 +1,27 @@
+[general] 
+creator=R package 'raster' 
+created= 2011-11-12 15:03:43 
+[georeference] 
+nrows= 1800 
+ncols= 912 
+xmin= 102 
+ymin= 8.5 
+xmax= 109.6 
+ymax= 23.5 
+projection= +proj=longlat +ellps=WGS84 
+[data] 
+datatype= INT2S 
+byteorder= little 
+nbands= 1 
+bandorder= BIL 
+categorical= FALSE 
+minvalue= 1 
+maxvalue= 22 
+nodatavalue= -9999 
+[legend] 
+legendtype=  
+values=  
+color=  
+[description] 
+layername= VNM_cov 
+history=  

@@ -1,0 +1,276 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>DACN</title>
+
+    <style>
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      #viewDiv {
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 60px;
+        bottom: 0;
+      }
+
+      .header {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 10%;
+      }
+
+      .btns {
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        overflow: auto;
+      }
+
+      .btn-switch {
+        flex-grow: 4;
+        background-color: rgba(34, 111, 14, 0.5);
+        color: #fff;
+        margin: 1px;
+        width: 50%;
+        padding: 20px;
+        overflow: auto;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .active-map {
+        color: #fff;
+        background-color: rgba(34, 111, 14, 1);
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.26/"></script>
+
+
+    <script>
+      require([
+          //"esri/config",
+          "esri/Map",
+          "esri/views/MapView",
+
+          "esri/widgets/Locate",
+          "esri/widgets/Track",
+          "esri/Graphic",
+
+          "esri/widgets/BasemapToggle",
+          "esri/widgets/BasemapGallery",
+
+          "esri/widgets/Search",
+
+          "esri/rest/locator",
+
+          "esri/widgets/Expand",
+          "esri/WebMap",
+          "esri/widgets/Legend"
+
+        ], function(
+            //esriConfig,
+            Map, MapView, Locate, Track, Graphic, BasemapToggle,
+            BasemapGallery, Search, locator, Expand, WebMap,Legend){
+
+          const webmapids = [
+            "ee3b5dc525544884bd2edbb66d31dd4c",
+            "e6b24c3b247e4818a2de320f34a4f2d0",
+            "97bb14137104406a9f1abe374e03aa8a"
+          ];
+          const webmaps = webmapids.map((webmapid) => {
+            return new WebMap({
+              portalItem: {
+                id: webmapid
+              }
+            });
+          });
+
+        const view = new MapView({
+          map: webmaps[0],
+          container: "viewDiv",
+        });
+
+        document.querySelector(".btns").addEventListener("click", (event) => {
+          const id = event.target.getAttribute("data-id");
+          if (id) {
+            const webmap = webmaps[id];
+            view.map = webmap;
+            const nodes = document.querySelectorAll(".btn-switch");
+            for (let idx = 0; idx < nodes.length; idx++) {
+              const node = nodes[idx];
+              const mapIndex = node.getAttribute("data-id");
+              if (mapIndex === id) {
+                node.classList.add("active-map");
+              } else {
+                node.classList.remove("active-map");
+              }
+            }
+          }
+        });
+
+        //locate
+        const locate = new Locate({
+          view: view,
+          useHeadingEnabled: false,
+          goToOverride: function(view, options) {
+            options.target.scale = 1500;
+            return view.goTo(options.target);
+          }
+        });
+        view.ui.add(locate, "top-left");
+
+        //Track
+        const track = new Track({
+          view: view,
+          graphic: new Graphic({
+            symbol: {
+              type: "simple-marker",
+              size: "12px",
+              color: "green",
+              outline: {
+                color: "#efefef",
+                width: "1.5px"
+              }
+            }
+          }),
+          useHeadingEnabled: false
+        });
+        view.ui.add(track, "top-left");
+
+
+        //basemap
+        const basemapToggle = new BasemapToggle({
+        view: view,
+        nextBasemap: "arcgis-imagery"
+     });
+
+      view.ui.add(basemapToggle,"bottom-right");
+
+      const basemapGallery = new BasemapGallery({
+          view: view,
+          container: document.createElement("div")
+        });
+
+        const bgExpand = new Expand({
+          view: view,
+          content: basemapGallery
+        });
+        view.ui.add(bgExpand, "top-right");
+
+      //Tim dia chi
+      const search = new Search({
+      view: view
+    });
+
+    view.ui.add(search, "bottom-left");
+
+
+
+
+    //Place
+    const places = ["Choose a place type...", "Parks and Outdoors", "Coffee shop", "Gas station", "Food", "Hotel"];
+
+    const select = document.createElement("select","");
+      select.setAttribute("class", "esri-widget esri-select");
+      select.setAttribute("style", "width: 175px; font-family: 'Avenir Next W00'; font-size: 1em");
+
+    places.forEach(function(p){
+      const option = document.createElement("option");
+      option.value = p;
+      option.innerHTML = p;
+      select.appendChild(option);
+    });
+
+    view.ui.add(select, "bottom-right");
+
+    const locatorUrl = "http://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer";
+
+   // Find places and add them to the map
+   function findPlaces(category, pt) {
+    locator.addressToLocations(locatorUrl, {
+      location: pt,
+      categories: [category],
+      maxLocations: 25,
+      outFields: ["Place_addr", "PlaceName"]
+    })
+
+    .then(function(results) {
+      view.popup.close();
+      view.graphics.removeAll();
+
+      results.forEach(function(result){
+        view.graphics.add(
+          new Graphic({
+            attributes: result.attributes,
+            geometry: result.location,
+            symbol: {
+             type: "simple-marker",
+             color: "#000000",
+             size: "12px",
+             outline: {
+               color: "#ffffff",
+               width: "2px"
+             }
+            },
+
+            popupTemplate: {
+              title: "{PlaceName}", // Data attribute names
+              content: "{Place_addr}"
+            }
+         }));
+      });
+
+    });
+
+  }
+
+    // Search for places in center of map
+    view.watch("stationary", function(val) {
+      if (val) {
+        findPlaces(select.value, view.center);
+      }
+      });
+
+    // Listen for category changes and find places
+    select.addEventListener('change', function (event) {
+      findPlaces(event.target.value, view.center);
+    });
+
+    const legend = new Expand({
+          content: new Legend({
+            view: view,
+            style: "card" // other styles include 'classic'
+          }),
+          view: view,
+          expanded: true
+        });
+        view.ui.add(legend, "bottom-left");
+        });
+    </script>
+
+  </head>
+  <body>
+    <section class="header esri-widget">
+      <div class="btns">
+        <div class="btn-switch active-map" data-id="0">Mặc định</div>
+        <div class="btn-switch" data-id="1">Ranh giới hành chính Việt Nam</div>
+        <div class="btn-switch" data-id="2">Hộ gia đình 2016</div>
+      </div>
+    </section>
+    <div id="viewDiv" class="esri-widget"></div>
+  </body>
+</html>

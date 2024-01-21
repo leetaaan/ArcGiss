@@ -1,0 +1,35 @@
+<VRTDataset rasterXSize="912" rasterYSize="1800">
+  <GeoTransform>  1.0200000000000000e+02,  8.3333330000000001e-03,  0.0000000000000000e+00,  2.3500000000000000e+01,  0.0000000000000000e+00, -8.3333330000000001e-03</GeoTransform>
+  <Metadata domain="Esri">
+    <MDI key="PyramidResamplingType">NEAREST</MDI>
+  </Metadata>
+  <VRTRasterBand dataType="Int16" band="1" subClass="VRTRawRasterBand">
+    <Metadata>
+      <MDI key="STATISTICS_COVARIANCES">39.96172827450463</MDI>
+      <MDI key="STATISTICS_EXCLUDEDVALUES"></MDI>
+      <MDI key="STATISTICS_MAXIMUM">22</MDI>
+      <MDI key="STATISTICS_MEAN">13.757676643393</MDI>
+      <MDI key="STATISTICS_MINIMUM">1</MDI>
+      <MDI key="STATISTICS_SKIPFACTORX">1</MDI>
+      <MDI key="STATISTICS_SKIPFACTORY">1</MDI>
+      <MDI key="STATISTICS_STDDEV">6.3215289506973</MDI>
+    </Metadata>
+    <Description>VNM_cov</Description>
+    <NoDataValue>-9999</NoDataValue>
+    <Histograms>
+      <HistItem>
+        <HistMin>1</HistMin>
+        <HistMax>22</HistMax>
+        <BucketCount>256</BucketCount>
+        <IncludeOutOfRange>1</IncludeOutOfRange>
+        <Approximate>0</Approximate>
+        <HistCounts>180769|0|0|0|0|0|0|0|0|0|0|0|52885|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|27686|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|2235|0|0|0|0|0|0|0|0|0|0|0|0|1364|0|0|0|0|0|0|0|0|0|0|0|75959|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|194366|0|0|0|0|0|0|0|0|0|0|0|111816|0|0|0|0|0|0|0|0|0|0|0|8991|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|823|0|0|0|0|0|0|0|0|0|0|0|370655|0|0|0|0|0|0|0|0|0|0|0|99839|0|0|0|0|0|0|0|0|0|0|0|19210|0|0|0|0|0|0|0|0|0|0|0|1812|0|0|0|0|0|0|0|0|0|0|0|492198|0|0|0|0|0|0|0|0|0|0|0|37|0|0|0|0|0|0|0|0|0|0|0|0|274</HistCounts>
+      </HistItem>
+    </Histograms>
+    <SourceFilename relativeToVRT="1">VNM_cov.gri</SourceFilename>
+    <ImageOffset>0</ImageOffset>
+    <PixelOffset>2</PixelOffset>
+    <LineOffset>1824</LineOffset>
+    <ByteOrder>LSB</ByteOrder>
+  </VRTRasterBand>
+</VRTDataset>
